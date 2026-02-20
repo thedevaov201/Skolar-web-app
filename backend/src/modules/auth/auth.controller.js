@@ -1,3 +1,47 @@
+import { User } from "../user/user.model.js"
+import bcryptjs from "bcryptjs";
+import { generateTokenAndSetCookie } from "../../utils/generateTokenAndSetCookie.js";
+
 export const signup = async (req, res) => {
-    res.send('Signup route');
+    const { name, email, password, university, department, level } = req.body;
+    try {
+        if(!name || !email || !password || !university || !department || !level) {
+            throw new Error("All fields are required")
+        }
+
+        const userExists = await User.findOne({ email });
+        if(userExists) return res.status(400).json({message: "User already exist"})
+
+        const hashedPassword = await bcryptjs.hash(password, 10)
+        const verificationToken = Math.floor(100000 + Math.random() * 900000).toString();
+
+        const user = await User.create({
+            name,
+            email,
+            password: hashedPassword,
+            university,
+            department,
+            level,
+            verificationToken
+        })
+
+        generateTokenAndSetCookie(res, user._id)
+
+        await user.save()
+
+        res.status(201).json({
+            success: true,
+            message: "User created successfully",
+            user: {
+                ...user._doc,
+                password: undefined,
+            }
+        })
+    } catch (error) {
+        console.log("error signing up: ", error)
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
+    }
 }
