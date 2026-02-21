@@ -1,8 +1,9 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { ArrowLeft } from "lucide-react"
 
 import Input from "../components/Input"
+import { useAuthStore } from "../auth.store.js"
 
 const SignupPage = () => {
   const [name, setName] = useState("")
@@ -12,8 +13,18 @@ const SignupPage = () => {
   const [department, setDepartment ] = useState("")
   const [level, setLevel ] = useState("")
 
+  const navigate = useNavigate()
+
+  const { signup, error, isLoading } = useAuthStore()
+
   async function handleSignup(e) {
     e.preventDefault()
+    try {
+      await signup(name, email, password, university, department, level)
+      navigate("/dashboard")
+    } catch (error) {
+      console.error("Signup failed:", error)
+    }
   }
 
   return (
@@ -78,7 +89,7 @@ const SignupPage = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            {/*{error && <p className="text-red-500 font-semibold mt-2">{error}</p>}*/}
+            {error && <p className="text-red-500 font-semibold mt-2">{error}</p>}
 
              {/* Checkbox and Forgot Password Link */}
           <div className="flex items-center justify-between">
@@ -99,7 +110,7 @@ const SignupPage = () => {
           </div>
 
             <button type="submit" className="mt-6 w-full py-3 px-4 bg-primary/90 hover:bg-primary text-white font-bold rounded-lg shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-800 transition duration-200 cursor-pointer">
-              Create Account
+              {isLoading ? "Creating Account..." : "Sign Up"}
             </button>
 
             <p className="mt-4 text-sm text-gray-500 text-center">
