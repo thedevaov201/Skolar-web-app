@@ -20,8 +20,8 @@ const Navbar = () => {
         </div>
 
         <div className='hidden md:flex items-center gap-3 text-sm font-medium'>
-          <NavLink to="/login" className="md:block px-5 py-2.5 transition-colors whitespace-nowrap hover:text-primary" >Log In</NavLink>
-          <NavLink to="/signup" className="px-2 py-2 md:px-5 md:py-2.5 bg-primary/90 text-white rounded-lg hover:bg-primary transition-colors whitespace-nowrap">Get Started</NavLink>
+          <NavLink to="/auth/login" className="md:block px-5 py-2.5 transition-colors whitespace-nowrap hover:text-primary" >Log In</NavLink>
+          <NavLink to="/auth" className="px-2 py-2 md:px-5 md:py-2.5 bg-primary/90 text-white rounded-lg hover:bg-primary transition-colors whitespace-nowrap">Get Started</NavLink>
         </div>
         
         <div className="md:hidden">

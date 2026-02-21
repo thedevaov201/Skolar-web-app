@@ -51,4 +51,8 @@
     .hero-stat span {
         @apply text-sm text-[#5A6C7D];
     }
+
+    .form-container {
+        @apply bg-white rounded-sm px-4 md:px-8 pt-8 pb-4 mt-10 shadow-sm border-2 border-gray-100;
+    }
 }
