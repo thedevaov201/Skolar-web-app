@@ -4,6 +4,7 @@ import { ArrowLeft } from "lucide-react"
 
 import Input from "../components/Input"
 import { useAuthStore } from "../auth.store.js"
+import PasswordStrengthMeter from "../components/PasswordStrengthMeter.jsx"
 
 const SignupPage = () => {
   const [name, setName] = useState("")
@@ -90,6 +91,8 @@ const SignupPage = () => {
               />
             </div>
             {error && <p className="text-red-500 font-semibold mt-2">{error}</p>}
+
+            <PasswordStrengthMeter password={password} />
 
              {/* Checkbox and Forgot Password Link */}
           <div className="flex items-center justify-between">
